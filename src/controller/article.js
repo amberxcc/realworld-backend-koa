@@ -284,7 +284,7 @@ exports.getComments = async (ctx, next) => {
 
 exports.deleteComment = async (ctx, next) => {
     await Comment.deleteOne({ id: ctx.params.id })
-    ctx.status = 204
+    return ctx.status = 204
     await next()
 }
 
@@ -292,7 +292,7 @@ exports.deleteComment = async (ctx, next) => {
 exports.favorite = async (ctx, next) => {
     const target = ctx.targetArticle
     target.addFavorite(ctx.user.id)
-    ctx.status = 200
+    return ctx.status = 200
     await next()
 }
 
@@ -300,6 +300,6 @@ exports.favorite = async (ctx, next) => {
 exports.unfavorite = async (ctx, next) => {
     const target = request.targetArticle
     target.removeFavorite(ctx.user.id)
-    ctx.status = 200
+    return ctx.status = 200
     await next()
 }
