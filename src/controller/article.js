@@ -3,7 +3,7 @@ const { Article, User, Comment } = require('../model')
 const { slugify } = require('../utils/util')
 
 
-exports.getOne = async (ctx, next) => {
+exports.getOne = async ctx => {
     const target = ctx.targetArticle
     const author = await User.findOne({ _id: target.author })
     let following = false
@@ -31,11 +31,10 @@ exports.getOne = async (ctx, next) => {
     }
 
     return ctx.body = { article }
-    await next()
 }
 
 
-exports.creatOne = async (ctx, next) => {
+exports.creatOne = async ctx => {
     const newArticle = new Article({
         ...ctx.request.body.article, // 任何Schema中未定义的键/值总是被忽略
         author: ctx.user._id,
@@ -63,11 +62,10 @@ exports.creatOne = async (ctx, next) => {
     }
 
     return ctx.body = { article }
-    await next()
 }
 
 
-exports.updateOne = async (ctx, next) => {
+exports.updateOne = async ctx => {
     const target = ctx.targetArticle
     const author = await User.findOne({ _id: target.author })
     let following = false
@@ -103,18 +101,16 @@ exports.updateOne = async (ctx, next) => {
     }
 
     return ctx.body = { article }
-    await next()
 }
 
 
-exports.deleteOne = async (ctx, next) => {
+exports.deleteOne = async ctx => {
     await Article.deleteOne({ slug: ctx.params.slug })
     ctx.status = 204
-    await next()
 }
 
 
-exports.getAll = async (ctx, next) => {
+exports.getAll = async ctx => {
     const { limit = 20, offset = 0, tag, author, favorited } = ctx.query
     const filter = {}
     
@@ -173,11 +169,10 @@ exports.getAll = async (ctx, next) => {
 
     const articleCount = await Article.countDocuments()
     return ctx.body = { articles, articleCount }
-    await next()
 }
 
 
-exports.getFeed = async (ctx, next) => {
+exports.getFeed = async ctx => {
 
     let articleCount = 0
     const { limit = 20, offset = 0 } = ctx.query
@@ -218,11 +213,10 @@ exports.getFeed = async (ctx, next) => {
     }
 
     return ctx.body = { articles, articleCount }
-    await next()
 }
 
 
-exports.addComment = async (ctx, next) => {
+exports.addComment = async ctx => {
     const newComment = new Comment({
         body: ctx.request.body.comment.body,
         article: ctx.targetArticle.id,
@@ -245,12 +239,10 @@ exports.addComment = async (ctx, next) => {
     }
 
     return ctx.body = ({ comment })
-    await next()
-
 }
 
 
-exports.getComments = async (ctx, next) => {
+exports.getComments = async ctx => {
     const comments = []
     const findComments = await Comment.find({ article: ctx.targetArticle.id })
 
@@ -278,28 +270,24 @@ exports.getComments = async (ctx, next) => {
     }
 
     return ctx.body = { comments }
-    await next()
 }
 
 
-exports.deleteComment = async (ctx, next) => {
+exports.deleteComment = async ctx => {
     await Comment.deleteOne({ id: ctx.params.id })
     return ctx.status = 204
-    await next()
 }
 
 
-exports.favorite = async (ctx, next) => {
+exports.favorite = async ctx => {
     const target = ctx.targetArticle
     target.addFavorite(ctx.user.id)
     return ctx.status = 200
-    await next()
 }
 
 
-exports.unfavorite = async (ctx, next) => {
+exports.unfavorite = async ctx => {
     const target = request.targetArticle
     target.removeFavorite(ctx.user.id)
     return ctx.status = 200
-    await next()
 }

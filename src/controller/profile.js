@@ -1,7 +1,7 @@
 const { User } = require('../model')
 
 
-exports.getProfile = async (ctx, next) => {
+exports.getProfile = async ctx => {
     const target = ctx.targetUser
     let following = false
     if (ctx.user) {
@@ -16,11 +16,10 @@ exports.getProfile = async (ctx, next) => {
     }
 
     return ctx.body = { profile }
-    await next()
 }
 
 
-exports.follow = async (ctx, next) => {
+exports.follow = async ctx => {
 
     const target = ctx.targetUser
     target.addFollower(ctx.user.id)
@@ -33,11 +32,10 @@ exports.follow = async (ctx, next) => {
     }
 
     return ctx.body = { profile }
-    await next()
 }
 
 
-exports.unfollow = async (ctx, next) => {
+exports.unfollow = async ctx => {
 
     const target = ctx.targetUser
     target.removeFollower(ctx.user.id)
@@ -50,6 +48,4 @@ exports.unfollow = async (ctx, next) => {
     }
 
     return ctx.body = { profile }
-    await next()
-
 }

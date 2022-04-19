@@ -2,7 +2,7 @@ const { User } = require('../model')
 const { jwtSign } = require("../utils/util")
 
 
-exports.login = async (ctx, next) => {
+exports.login = async ctx => {
     const user = {
         username: ctx.user.username,
         email: ctx.user.email,
@@ -11,12 +11,10 @@ exports.login = async (ctx, next) => {
         token: jwtSign({ id: ctx.user._id })
     }
     return ctx.body = { user }
-
-    await next()
 }
 
 
-exports.registe = async (ctx, next) => {
+exports.registe = async ctx => {
     const newUser = new User(ctx.request.body.user)
     await newUser.save()
 
@@ -28,12 +26,10 @@ exports.registe = async (ctx, next) => {
         image: null,
     }
     return ctx.body = { user }
-    
-    await next()
 }
 
 
-exports.getUser = async (ctx, next) => {
+exports.getUser = async ctx => {
 
     const user = {
         username: ctx.user.username,
@@ -43,11 +39,9 @@ exports.getUser = async (ctx, next) => {
         token: jwtSign({ id: ctx.user._id })
     }
     return ctx.body = { user }
-
-    await next()
 }
 
-exports.updateUser = async (ctx, next) => {
+exports.updateUser = async ctx => {
     for(let property in ctx.request.body.user){
         ctx.user[property] = ctx.request.body.user[property]
     }
@@ -61,6 +55,4 @@ exports.updateUser = async (ctx, next) => {
         token: jwtSign({ id: ctx.user._id })
     }
     return ctx.body = { user }
-
-    await next()
 }
