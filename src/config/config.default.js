@@ -9,7 +9,7 @@ module.exports = {
     MONGODB_PORT: 27017,
 
     // 数据库连接超时时间
-    dbTimeout: 5000,
+    DB_TIMEOUT: 5000,
 
     // 数据库集合
     COLLECTION: "realworld",

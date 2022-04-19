@@ -1,10 +1,12 @@
 const util = require('util')
 const { HttpError } = require('koa')
+const logger = require('../utils/logger')
 
 module.exports = () => {
     return async (ctx, next) => {
         try {
-            console.log('==>',{
+            logger.debug('request ==> ',{
+                method: ctx.method,
                 url: ctx.url, 
                 body: ctx.request.body,
             })
