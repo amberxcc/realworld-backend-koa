@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
-const { SECRET_KEY, TOKEN_TIME } = require('../config/config.default')
+const { SECRET_KEY, TOKEN_TIME } = require('../config')
 
 const key = SECRET_KEY 
 const tokenTime = TOKEN_TIME 
