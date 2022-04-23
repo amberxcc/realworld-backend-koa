@@ -3,7 +3,10 @@ const validator = require('validator')
 const { User } = require('../model')
 const { myHash } = require('../utils/util')
 
-// 没有使用第三方验证中间件，使用ctx.assert方法串行验证
+/* 
+1. 此版本没有使用第三方验证中间件，使用ctx.assert方法串行验证
+2. 由于数据库操作并不复杂，没有单独封装Service层，所有准备工作都在Validate层处理
+*/
 
 exports.registe = async (ctx, next) => {
     const body = ctx.request.body.user

@@ -5,7 +5,7 @@ const logger = require('../utils/logger')
 module.exports = () => {
     return async (ctx, next) => {
         try {
-            logger.debug('request ==> ',{
+            logger.debug(`request ==> ${ctx.url}`,{
                 method: ctx.method,
                 url: ctx.url, 
                 body: ctx.request.body,

@@ -114,29 +114,20 @@ exports.getAll = async ctx => {
     const { limit = 20, offset = 0, tag, author, favorited } = ctx.query
     const filter = {}
     
-    
-    // 如果需要筛选tag
     if (tag) filter.tagList = tag
 
-    // 如果需要筛选favorited（被某人收藏的）
     if (favorited) filter.favoritedList = favorited
 
-    // 如果需要筛选author（作者是某人的）
     if (author) {
         const authorUser = await User.findOne({ username: author })
-
-        // 1. author不存在，直接返回
         assert(authorUser, 400, `: ${username}不存在`)
-        // 2. author存在，添加到filter
         filter.username = authorUser._id
     }
 
     const findResults = await Article.find(filter)
         .skip(Number(offset))
         .limit(Number(limit))
-        .sort({
-            creatAt: -1, // 默认返回的数据按照创建时间排序，-1为逆序，1为顺序
-        })
+        .sort({ creatAt: -1 })
 
     const articles = []
     for (let article of findResults) {
