@@ -1,18 +1,16 @@
 const mongoose = require('mongoose')
-const { MONGODB_HOST, MONGODB_PORT, COLLECTION, DB_TIMEOUT } = require('../config')
+const { MONGODB_URL, MONGODB_OPTION } = require('../config')
 const User = require('./user')
 const Article = require('./article')
 const Comment = require('./comment')
 const logger = require('../utils/logger')
 
-const dbUrl = `mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${COLLECTION}`
-
-logger.info(`Try connect to mongodb (timeout in ${DB_TIMEOUT}ms): ${dbUrl}`)
-mongoose.connect(dbUrl, { serverSelectionTimeoutMS: DB_TIMEOUT })
+logger.info(`准备连接到mongodb数据库: ${MONGODB_URL}`)
+mongoose.connect(MONGODB_URL, MONGODB_OPTION)
     .then(() => {
-        logger.info(`Mongodb connected: ${dbUrl}`)
-    }).catch(err => {
-        logger.error(`Mongodb connect fail: ${dbUrl}`, err)
+        logger.info(`mongodb connected: ${MONGODB_URL}`)
+    }).catch(errors => {
+        logger.error(`mongodb connect fail: ${MONGODB_URL}`, errors)
         process.exit(1)
     })
 

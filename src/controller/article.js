@@ -229,7 +229,7 @@ exports.addComment = async ctx => {
         }
     }
 
-    return ctx.body = ({ comment })
+    return ctx.body = { comment }
 }
 
 
